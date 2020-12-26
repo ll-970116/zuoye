@@ -10,10 +10,7 @@ import com.example.imitation.model.HomeModelImpl;
 public class HomePresenterImpl extends BasePresenter<IConstants.IView, IConstants.IModel> implements IConstants.IPresenter {
 
 
-    public HomePresenterImpl(IConstants.IView iview) {
-        super(iview);
 
-    }
 
     @Override
     protected IConstants.IModel setImode() {

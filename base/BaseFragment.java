@@ -6,16 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
-import com.example.imitation.R;
 
 public abstract class BaseFragment<P extends BasePresenter> extends Fragment implements BaseView {
 
-    private P presenter;
-    private Context context = getActivity();
+    public P presenter;
+    public Context context = getActivity();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -23,20 +19,25 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
         View view = inflater.inflate(ID(), container, false);
         if (presenter == null){
             presenter =add();
-
+            presenter.attch(this);
         }
 
-        initView();
+        initView(view);
         initData();
         return view;
     }
 
     protected abstract void initData();
 
-    protected abstract void initView();
+    protected abstract void initView(View view);
 
     protected abstract P add();
 
     protected abstract int ID();
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        presenter.destroy();
+    }
 }

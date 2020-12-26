@@ -1,4 +1,4 @@
-package com.example.imitation;
+package com.example.imitation.view;
 
 import android.os.Bundle;
 import android.widget.FrameLayout;
@@ -6,6 +6,7 @@ import android.widget.RadioGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.imitation.R;
 import com.example.imitation.fragment.HomeFragment;
 
 public class MainActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
