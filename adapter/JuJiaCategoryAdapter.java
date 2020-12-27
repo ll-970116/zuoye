@@ -17,12 +17,12 @@ import com.bumptech.glide.Glide;
 import com.example.imitation.R;
 import com.example.imitation.bean.HomeBean;
 
-public class ChanneGridlayoutper extends DelegateAdapter.Adapter<ChanneGridlayoutper.Holder> {
+public class JuJiaCategoryAdapter extends DelegateAdapter.Adapter<JuJiaCategoryAdapter.Holder> {
     private GridLayoutHelper gridLayoutHelper;
     private HomeBean homeBean;
     private Context context;
 
-    public ChanneGridlayoutper(GridLayoutHelper gridLayoutHelper, HomeBean homeBean, Context context) {
+    public JuJiaCategoryAdapter(GridLayoutHelper gridLayoutHelper, HomeBean homeBean, Context context) {
         this.gridLayoutHelper = gridLayoutHelper;
         this.homeBean = homeBean;
         this.context = context;
@@ -36,31 +36,31 @@ public class ChanneGridlayoutper extends DelegateAdapter.Adapter<ChanneGridlayou
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.layout_channer, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.layout_categor, parent, false);
         return new Holder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
-
-        Glide.with(context).load(homeBean.getData().getChannel().get(position).getIcon_url()).into(holder.iv);
-        holder.tv.setText(homeBean.getData().getChannel().get(position).getName());
+        Glide.with(context).load(homeBean.getData().getCategoryList().get(0).getGoodsList().get(position).getList_pic_url()).into(holder.iv);
+        holder.tv2.setText(homeBean.getData().getCategoryList().get(0).getGoodsList().get(position).getName());
+        holder.tv3.setText("￥"+ homeBean.getData().getCategoryList().get(0).getGoodsList().get(position).getRetail_price());
     }
 
     @Override
     public int getItemCount() {
-        return 5;
+        return 7;
     }
 
     public class Holder extends RecyclerView.ViewHolder {
-
-        private final TextView tv;
         private final ImageView iv;
-
+        private final TextView tv2;
+        private final TextView tv3;
         public Holder(@NonNull View itemView) {
             super(itemView);
-            iv = itemView.findViewById(R.id.iv_canchuchanner);
-            tv = itemView.findViewById(R.id.tv_channer);
+            iv = itemView.findViewById(R.id.iv_catetor);
+            tv2 = itemView.findViewById(R.id.tv_2);
+            tv3 = itemView.findViewById(R.id.tv_3);
         }
     }
 }

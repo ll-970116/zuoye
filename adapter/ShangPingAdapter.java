@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -56,7 +55,7 @@ public class ShangPingAdapter extends DelegateAdapter.Adapter<ShangPingAdapter.h
         public holder(@NonNull View itemView) {
             super(itemView);
 
-            tv = itemView.findViewById(R.id.tv_sp);
+            tv = itemView.findViewById(R.id.tv_sf);
 
         }
     }

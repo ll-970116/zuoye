@@ -55,7 +55,7 @@ public class ShouFaAdapter extends DelegateAdapter.Adapter<ShouFaAdapter.holder>
         public holder(@NonNull View itemView) {
             super(itemView);
 
-            tv = itemView.findViewById(R.id.tv_sp);
+            tv = itemView.findViewById(R.id.tv_sf);
 
         }
     }

@@ -62,7 +62,7 @@ public class BrandListAdapter extends DelegateAdapter.Adapter<BrandListAdapter.H
 
         public Holder(@NonNull View itemView) {
             super(itemView);
-            iv = itemView.findViewById(R.id.iv_newgoods);
+            iv = itemView.findViewById(R.id.iv_newgood);
             tv2 = itemView.findViewById(R.id.tv_2);
             tv3 = itemView.findViewById(R.id.tv_3);
         }

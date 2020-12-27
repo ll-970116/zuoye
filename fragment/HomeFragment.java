@@ -13,14 +13,21 @@ import com.alibaba.android.vlayout.layout.LinearLayoutHelper;
 import com.example.imitation.R;
 import com.example.imitation.adapter.BannerListener;
 import com.example.imitation.adapter.BrandListAdapter;
-import com.example.imitation.adapter.CategoryListAdapter;
+import com.example.imitation.adapter.CanChuAdapter;
+import com.example.imitation.adapter.CanChuCategoryListAdapter;
 import com.example.imitation.adapter.ChanneGridlayoutper;
 import com.example.imitation.adapter.HotGoodsLisAdapter;
+import com.example.imitation.adapter.JuJiaAdapter;
+import com.example.imitation.adapter.JuJiaCategoryAdapter;
 import com.example.imitation.adapter.NewGoodsListAdapter;
+import com.example.imitation.adapter.PeiJianAdapter;
+import com.example.imitation.adapter.PeiJianCategoryListAdapter;
 import com.example.imitation.adapter.ShangPingAdapter;
 import com.example.imitation.adapter.ShouFaAdapter;
 import com.example.imitation.adapter.SousuoAdapter;
 import com.example.imitation.adapter.TuiJIanAdapter;
+import com.example.imitation.adapter.YingShiAdapter;
+import com.example.imitation.adapter.YingShiCategoryListAdapter;
 import com.example.imitation.adapter.ZhuanTiAdapter;
 import com.example.imitation.base.BaseFragment;
 import com.example.imitation.bean.HomeBean;
@@ -32,14 +39,11 @@ public class HomeFragment extends BaseFragment<HomePresenterImpl> implements ICo
 
 
     private RecyclerView rl;
-    private VirtualLayoutManager layoutManager;
-    private LinearLayoutHelper linearLayoutHelper;
 
-    private DelegateAdapter adapter;
     private SousuoAdapter sousuoAdapter;
-    private LinearLayoutHelper bannerlayoutHelper;
+
     private BannerListener bannerlistener;
-    private GridLayoutHelper gridLayoutHelper;
+
     private ChanneGridlayoutper channeGridlayoutper;
     private BrandListAdapter brandsList;
     private ShangPingAdapter shangPingAdapter;
@@ -48,7 +52,15 @@ public class HomeFragment extends BaseFragment<HomePresenterImpl> implements ICo
     private TuiJIanAdapter tuiJIanAdapter;
     private HotGoodsLisAdapter hotGoodsLisAdapter;
     private ZhuanTiAdapter zhuanTiAdapter;
-    private CategoryListAdapter categoryListAdapter;
+    private JuJiaCategoryAdapter juJiaCategoryAdapter;
+    private JuJiaAdapter juJiaAdapter;
+    private CanChuAdapter canChuAdapter;
+    private CanChuCategoryListAdapter canChuCategoryListAdapter1;
+    private YingShiAdapter yingShiAdapter;
+    private YingShiCategoryListAdapter yingShiCategoryListAdapter;
+
+    private PeiJianAdapter peiJianAdapter;
+    private PeiJianCategoryListAdapter peiJianCategoryListAdapter;
 
 
     @Override
@@ -68,14 +80,14 @@ public class HomeFragment extends BaseFragment<HomePresenterImpl> implements ICo
 
     private void initBannerLinerLayout(HomeBean homeBean) {
 
-        bannerlayoutHelper = new LinearLayoutHelper();
-        bannerlayoutHelper.setItemCount(1);
-        bannerlayoutHelper.setPadding(20, 20, 20, 20);
-        bannerlayoutHelper.setBgColor(0);
-        bannerlayoutHelper.setMargin(20, 20, 20, 20);
-        bannerlayoutHelper.setAspectRatio(2);
+        LinearLayoutHelper linearLayoutHelper = new LinearLayoutHelper();
+        linearLayoutHelper.setItemCount(1);
+        linearLayoutHelper.setPadding(20, 20, 20, 20);
+        linearLayoutHelper.setBgColor(0);
+        linearLayoutHelper.setMargin(20, 20, 20, 20);
+        linearLayoutHelper.setAspectRatio(2);
 
-        bannerlistener = new BannerListener(bannerlayoutHelper, homeBean, getActivity());
+        bannerlistener = new BannerListener(linearLayoutHelper, homeBean, getActivity());
     }
 
     @Override
@@ -84,8 +96,8 @@ public class HomeFragment extends BaseFragment<HomePresenterImpl> implements ICo
     }
 
     private void initSousuoLinerLayout() {
+        LinearLayoutHelper linearLayoutHelper = new LinearLayoutHelper();
 
-        linearLayoutHelper = new LinearLayoutHelper();
         linearLayoutHelper.setItemCount(1);
         linearLayoutHelper.setPadding(20, 20, 20, 20);
         linearLayoutHelper.setMargin(20, 20, 20, 20);
@@ -103,8 +115,8 @@ public class HomeFragment extends BaseFragment<HomePresenterImpl> implements ICo
 
     @Override
     public void OnSuccess(HomeBean homeBean) {
-        layoutManager = new VirtualLayoutManager(getActivity());
-        rl.setLayoutManager(layoutManager);
+        VirtualLayoutManager virtualLayoutManager = new VirtualLayoutManager(getActivity());
+        rl.setLayoutManager(virtualLayoutManager);
         RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
         rl.setRecycledViewPool(viewPool);
         viewPool.setMaxRecycledViews(0, 10);
@@ -119,9 +131,16 @@ public class HomeFragment extends BaseFragment<HomePresenterImpl> implements ICo
         iniTuiJian();
         initHotGoodsLis(homeBean);
         initZhuanTi(homeBean);
-        initCategoryList(homeBean);
         initJiaoJu(homeBean);
-        adapter = new DelegateAdapter(layoutManager, true);
+        initJuJiaCategoryList(homeBean);
+        initCanChu(homeBean);
+        initCanChuCategoryList(homeBean);
+        initYingShi(homeBean);
+        initYingShiCategoryList(homeBean);
+        initPeiJian(homeBean);
+        initPeiJianCategoryList(homeBean);
+
+        DelegateAdapter adapter = new DelegateAdapter(virtualLayoutManager, true);
         adapter.addAdapter(sousuoAdapter);
         adapter.addAdapter(bannerlistener);
         adapter.addAdapter(channeGridlayoutper);
@@ -132,24 +151,53 @@ public class HomeFragment extends BaseFragment<HomePresenterImpl> implements ICo
         adapter.addAdapter(tuiJIanAdapter);
         adapter.addAdapter(hotGoodsLisAdapter);
         adapter.addAdapter(zhuanTiAdapter);
-        adapter.addAdapter(categoryListAdapter);
+        adapter.addAdapter(juJiaAdapter);
+        adapter.addAdapter(juJiaCategoryAdapter);
+        adapter.addAdapter(canChuAdapter);
+       // adapter.addAdapter(canChuCategoryListAdapter1);
+        adapter.addAdapter(yingShiAdapter);
+        adapter.addAdapter(yingShiCategoryListAdapter);
+      // adapter.addAdapter(peiJianAdapter);
+        adapter.addAdapter(peiJianCategoryListAdapter);
+
 
         rl.setAdapter(adapter);
     }
 
-    private void initJiaoJu(HomeBean homeBean) {
+    private void initPeiJianCategoryList(HomeBean homeBean) {
+
+        GridLayoutHelper gridLayoutHelper = new GridLayoutHelper(7);
+        gridLayoutHelper.setItemCount(7);
+        gridLayoutHelper.setPadding(20, 20, 20, 20);
+        gridLayoutHelper.setMargin(20, 20, 20, 20);
+        gridLayoutHelper.setBgColor(0);
+        gridLayoutHelper.setAspectRatio(2);
+
+        gridLayoutHelper.setWeights(new float[]{50, 50});
+        gridLayoutHelper.setVGap(20);
+        gridLayoutHelper.setHGap(20);
+        gridLayoutHelper.setSpanCount(2);
+        gridLayoutHelper.setAutoExpand(false);
+
+        peiJianCategoryListAdapter = new PeiJianCategoryListAdapter(homeBean, getActivity(), gridLayoutHelper);
+    }
+
+    private void initPeiJian(HomeBean homeBean) {
         LinearLayoutHelper linearLayoutHelper = new LinearLayoutHelper();
         linearLayoutHelper.setBgColor(0);
         linearLayoutHelper.setItemCount(1);
         linearLayoutHelper.setAspectRatio(10);
         linearLayoutHelper.setMargin(20, 20, 20, 20);
         linearLayoutHelper.setPadding(20, 20, 20, 20);
-     //new JiaoJuAdapter(linearLayoutHelper, getActivity());
+        peiJianAdapter = new PeiJianAdapter(linearLayoutHelper, homeBean, getActivity());
+
+
     }
 
-    private void initCategoryList(HomeBean homeBean) {
-        gridLayoutHelper = new GridLayoutHelper(7);// 设置布局里Item个数
-        // 公共属性
+    private void initYingShiCategoryList(HomeBean homeBean) {
+        // 设置布局里Item个数
+        GridLayoutHelper gridLayoutHelper = new GridLayoutHelper(7);
+// 公共属性
         gridLayoutHelper.setItemCount(7);// 设置布局里Item个数
         gridLayoutHelper.setPadding(20, 20, 20, 20);// 设置LayoutHelper的子元素相对LayoutHelper边缘的距离
         gridLayoutHelper.setMargin(20, 20, 20, 20);// 设置LayoutHelper边缘相对父控件（即RecyclerView）的距离
@@ -161,7 +209,79 @@ public class HomeFragment extends BaseFragment<HomePresenterImpl> implements ICo
         gridLayoutHelper.setHGap(20);// 控制子元素之间的水平间距
         gridLayoutHelper.setAutoExpand(false);//是否自动填充空白区域
         gridLayoutHelper.setSpanCount(2);// 设置每行多少个网格
-        categoryListAdapter = new CategoryListAdapter(gridLayoutHelper, homeBean, getActivity());
+        yingShiCategoryListAdapter = new YingShiCategoryListAdapter(gridLayoutHelper, homeBean, getActivity());
+
+
+    }
+
+    private void initYingShi(HomeBean homeBean) {
+        LinearLayoutHelper linearLayoutHelper = new LinearLayoutHelper();
+        linearLayoutHelper.setBgColor(0);
+        linearLayoutHelper.setItemCount(1);
+        linearLayoutHelper.setAspectRatio(10);
+        linearLayoutHelper.setMargin(20, 20, 20, 20);
+        linearLayoutHelper.setPadding(20, 20, 20, 20);
+        yingShiAdapter = new YingShiAdapter(linearLayoutHelper, homeBean, getActivity());
+
+    }
+
+    private void initCanChuCategoryList(HomeBean homeBean) {
+        // 设置布局里Item个数
+        GridLayoutHelper gridLayoutHelper = new GridLayoutHelper(7);
+// 公共属性
+        gridLayoutHelper.setItemCount(7);// 设置布局里Item个数
+        gridLayoutHelper.setPadding(20, 20, 20, 20);// 设置LayoutHelper的子元素相对LayoutHelper边缘的距离
+        gridLayoutHelper.setMargin(20, 20, 20, 20);// 设置LayoutHelper边缘相对父控件（即RecyclerView）的距离
+        gridLayoutHelper.setBgColor(0);// 设置背景颜色
+        gridLayoutHelper.setAspectRatio(2);// 设置设置布局内每行布局的宽与高的比
+
+        gridLayoutHelper.setWeights(new float[]{50, 50});//设置每行中 每个网格宽度 占 每行总宽度 的比例
+        gridLayoutHelper.setVGap(20);// 控制子元素之间的垂直间距
+        gridLayoutHelper.setHGap(20);// 控制子元素之间的水平间距
+        gridLayoutHelper.setAutoExpand(false);//是否自动填充空白区域
+        gridLayoutHelper.setSpanCount(2);// 设置每行多少个网格
+        yingShiCategoryListAdapter = new YingShiCategoryListAdapter(gridLayoutHelper, homeBean, getActivity());
+
+        canChuCategoryListAdapter1 = new CanChuCategoryListAdapter(gridLayoutHelper, homeBean, getActivity());
+
+    }
+
+    private void initCanChu(HomeBean homeBean) {
+        LinearLayoutHelper linearLayoutHelper = new LinearLayoutHelper();
+        linearLayoutHelper.setBgColor(0);
+        linearLayoutHelper.setItemCount(1);
+        linearLayoutHelper.setAspectRatio(10);
+        linearLayoutHelper.setMargin(20, 20, 20, 20);
+        linearLayoutHelper.setPadding(20, 20, 20, 20);
+        canChuAdapter = new CanChuAdapter(linearLayoutHelper, homeBean, getActivity());
+
+    }
+
+    private void initJiaoJu(HomeBean homeBean) {
+        LinearLayoutHelper linearLayoutHelper = new LinearLayoutHelper();
+        linearLayoutHelper.setBgColor(0);
+        linearLayoutHelper.setItemCount(1);
+        linearLayoutHelper.setAspectRatio(10);
+        linearLayoutHelper.setMargin(20, 20, 20, 20);
+        linearLayoutHelper.setPadding(20, 20, 20, 20);
+        juJiaAdapter = new JuJiaAdapter(linearLayoutHelper, homeBean, getActivity());
+    }
+
+    private void initJuJiaCategoryList(HomeBean homeBean) {
+        GridLayoutHelper gridLayoutHelper = new GridLayoutHelper(7);// 设置布局里Item个数
+// 公共属性
+        gridLayoutHelper.setItemCount(7);// 设置布局里Item个数
+        gridLayoutHelper.setPadding(20, 20, 20, 20);// 设置LayoutHelper的子元素相对LayoutHelper边缘的距离
+        gridLayoutHelper.setMargin(20, 20, 20, 20);// 设置LayoutHelper边缘相对父控件（即RecyclerView）的距离
+        gridLayoutHelper.setBgColor(0);// 设置背景颜色
+        gridLayoutHelper.setAspectRatio(2);// 设置设置布局内每行布局的宽与高的比
+
+        gridLayoutHelper.setWeights(new float[]{50, 50});//设置每行中 每个网格宽度 占 每行总宽度 的比例
+        gridLayoutHelper.setVGap(20);// 控制子元素之间的垂直间距
+        gridLayoutHelper.setHGap(20);// 控制子元素之间的水平间距
+        gridLayoutHelper.setAutoExpand(false);//是否自动填充空白区域
+        gridLayoutHelper.setSpanCount(2);// 设置每行多少个网格
+        juJiaCategoryAdapter = new JuJiaCategoryAdapter(gridLayoutHelper, homeBean, getActivity());
 
     }
 
@@ -237,7 +357,9 @@ public class HomeFragment extends BaseFragment<HomePresenterImpl> implements ICo
     }
 
     private void initBrandList(HomeBean homeBean) {
-        gridLayoutHelper = new GridLayoutHelper(4);
+        GridLayoutHelper gridLayoutHelper = new GridLayoutHelper(4);
+
+
         // 公共属性
         gridLayoutHelper.setItemCount(4);// 设置布局里Item个数
         gridLayoutHelper.setPadding(20, 20, 20, 20);// 设置LayoutHelper的子元素相对LayoutHelper边缘的距离
@@ -254,7 +376,7 @@ public class HomeFragment extends BaseFragment<HomePresenterImpl> implements ICo
     }
 
     private void initChanneGridlayoutper(HomeBean homeBean) {
-        gridLayoutHelper = new GridLayoutHelper(5);
+        GridLayoutHelper gridLayoutHelper = new GridLayoutHelper(5);
         // 公共属性
         gridLayoutHelper.setItemCount(5);// 设置布局里Item个数
         gridLayoutHelper.setPadding(20, 20, 20, 20);// 设置LayoutHelper的子元素相对LayoutHelper边缘的距离

@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.alibaba.android.vlayout.DelegateAdapter;
 import com.alibaba.android.vlayout.LayoutHelper;
 import com.alibaba.android.vlayout.layout.GridLayoutHelper;
-import com.alibaba.android.vlayout.layout.LinearLayoutHelper;
 import com.bumptech.glide.Glide;
 import com.example.imitation.R;
 import com.example.imitation.bean.HomeBean;
@@ -63,7 +62,7 @@ public class NewGoodsListAdapter extends DelegateAdapter.Adapter<NewGoodsListAda
 
         public Holder(@NonNull View itemView) {
             super(itemView);
-            iv = itemView.findViewById(R.id.iv_newgoods);
+            iv = itemView.findViewById(R.id.iv_newgood);
             tv2 = itemView.findViewById(R.id.tv_2);
             tv3 = itemView.findViewById(R.id.tv_3);
         }
