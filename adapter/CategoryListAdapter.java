@@ -13,18 +13,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.alibaba.android.vlayout.DelegateAdapter;
 import com.alibaba.android.vlayout.LayoutHelper;
 import com.alibaba.android.vlayout.layout.GridLayoutHelper;
-import com.alibaba.android.vlayout.layout.LinearLayoutHelper;
 import com.bumptech.glide.Glide;
 import com.example.imitation.R;
 import com.example.imitation.bean.HomeBean;
 
-public class NewGoodsListAdapter extends DelegateAdapter.Adapter<NewGoodsListAdapter.Holder> {
+public class CategoryListAdapter extends DelegateAdapter.Adapter<CategoryListAdapter.Holder> {
     private GridLayoutHelper gridLayoutHelper;
     private HomeBean homeBean;
     private Context context;
 
-    public NewGoodsListAdapter(GridLayoutHelper linearLayoutHelper, HomeBean homeBean, Context context) {
-        this.gridLayoutHelper = linearLayoutHelper;
+    public CategoryListAdapter(GridLayoutHelper gridLayoutHelper, HomeBean homeBean, Context context) {
+        this.gridLayoutHelper = gridLayoutHelper;
         this.homeBean = homeBean;
         this.context = context;
     }
@@ -37,21 +36,21 @@ public class NewGoodsListAdapter extends DelegateAdapter.Adapter<NewGoodsListAda
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.layout_newgoods, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.layout_categor, parent, false);
         return new Holder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
 
-        Glide.with(context).load(homeBean.getData().getNewGoodsList().get(position).getList_pic_url()).into(holder.iv);
-        holder.tv2.setText(homeBean.getData().getNewGoodsList().get(position).getName());
-        holder.tv3.setText(homeBean.getData().getNewGoodsList().get(position).getRetail_price()+"元起");
+        Glide.with(context).load(homeBean.getData().getCategoryList().get(position).getGoodsList().get(position).getList_pic_url()).into(holder.iv);
+        holder.tv2.setText(homeBean.getData().getCategoryList().get(position).getGoodsList().get(position).getName());
+        holder.tv3.setText("￥"+ homeBean.getData().getCategoryList().get(position).getGoodsList().get(position).getRetail_price());
     }
 
     @Override
     public int getItemCount() {
-        return 4;
+        return 7;
     }
 
     public class Holder extends RecyclerView.ViewHolder {
@@ -63,7 +62,7 @@ public class NewGoodsListAdapter extends DelegateAdapter.Adapter<NewGoodsListAda
 
         public Holder(@NonNull View itemView) {
             super(itemView);
-            iv = itemView.findViewById(R.id.iv_newgoods);
+            iv = itemView.findViewById(R.id.iv_catetor);
             tv2 = itemView.findViewById(R.id.tv_2);
             tv3 = itemView.findViewById(R.id.tv_3);
         }

@@ -13,11 +13,15 @@ import com.alibaba.android.vlayout.layout.LinearLayoutHelper;
 import com.example.imitation.R;
 import com.example.imitation.adapter.BannerListener;
 import com.example.imitation.adapter.BrandListAdapter;
+import com.example.imitation.adapter.CategoryListAdapter;
 import com.example.imitation.adapter.ChanneGridlayoutper;
+import com.example.imitation.adapter.HotGoodsLisAdapter;
 import com.example.imitation.adapter.NewGoodsListAdapter;
 import com.example.imitation.adapter.ShangPingAdapter;
 import com.example.imitation.adapter.ShouFaAdapter;
 import com.example.imitation.adapter.SousuoAdapter;
+import com.example.imitation.adapter.TuiJIanAdapter;
+import com.example.imitation.adapter.ZhuanTiAdapter;
 import com.example.imitation.base.BaseFragment;
 import com.example.imitation.bean.HomeBean;
 import com.example.imitation.constants.IConstants;
@@ -41,6 +45,10 @@ public class HomeFragment extends BaseFragment<HomePresenterImpl> implements ICo
     private ShangPingAdapter shangPingAdapter;
     private NewGoodsListAdapter newGoodsListAdapter;
     private ShouFaAdapter shouFaAdapter;
+    private TuiJIanAdapter tuiJIanAdapter;
+    private HotGoodsLisAdapter hotGoodsLisAdapter;
+    private ZhuanTiAdapter zhuanTiAdapter;
+    private CategoryListAdapter categoryListAdapter;
 
 
     @Override
@@ -108,18 +116,85 @@ public class HomeFragment extends BaseFragment<HomePresenterImpl> implements ICo
         initBrandList(homeBean);
         iniShouFa();
         initNewGoodsList(homeBean);
-
+        iniTuiJian();
+        initHotGoodsLis(homeBean);
+        initZhuanTi(homeBean);
+        initCategoryList(homeBean);
+        initJiaoJu(homeBean);
         adapter = new DelegateAdapter(layoutManager, true);
         adapter.addAdapter(sousuoAdapter);
         adapter.addAdapter(bannerlistener);
-
         adapter.addAdapter(channeGridlayoutper);
         adapter.addAdapter(shangPingAdapter);
         adapter.addAdapter(brandsList);
         adapter.addAdapter(shouFaAdapter);
         adapter.addAdapter(newGoodsListAdapter);
+        adapter.addAdapter(tuiJIanAdapter);
+        adapter.addAdapter(hotGoodsLisAdapter);
+        adapter.addAdapter(zhuanTiAdapter);
+        adapter.addAdapter(categoryListAdapter);
 
         rl.setAdapter(adapter);
+    }
+
+    private void initJiaoJu(HomeBean homeBean) {
+        LinearLayoutHelper linearLayoutHelper = new LinearLayoutHelper();
+        linearLayoutHelper.setBgColor(0);
+        linearLayoutHelper.setItemCount(1);
+        linearLayoutHelper.setAspectRatio(10);
+        linearLayoutHelper.setMargin(20, 20, 20, 20);
+        linearLayoutHelper.setPadding(20, 20, 20, 20);
+     //new JiaoJuAdapter(linearLayoutHelper, getActivity());
+    }
+
+    private void initCategoryList(HomeBean homeBean) {
+        gridLayoutHelper = new GridLayoutHelper(7);// 设置布局里Item个数
+        // 公共属性
+        gridLayoutHelper.setItemCount(7);// 设置布局里Item个数
+        gridLayoutHelper.setPadding(20, 20, 20, 20);// 设置LayoutHelper的子元素相对LayoutHelper边缘的距离
+        gridLayoutHelper.setMargin(20, 20, 20, 20);// 设置LayoutHelper边缘相对父控件（即RecyclerView）的距离
+        gridLayoutHelper.setBgColor(0);// 设置背景颜色
+        gridLayoutHelper.setAspectRatio(2);// 设置设置布局内每行布局的宽与高的比
+
+        gridLayoutHelper.setWeights(new float[]{50, 50});//设置每行中 每个网格宽度 占 每行总宽度 的比例
+        gridLayoutHelper.setVGap(20);// 控制子元素之间的垂直间距
+        gridLayoutHelper.setHGap(20);// 控制子元素之间的水平间距
+        gridLayoutHelper.setAutoExpand(false);//是否自动填充空白区域
+        gridLayoutHelper.setSpanCount(2);// 设置每行多少个网格
+        categoryListAdapter = new CategoryListAdapter(gridLayoutHelper, homeBean, getActivity());
+
+    }
+
+    private void initZhuanTi(HomeBean homeBean) {
+        LinearLayoutHelper linearLayoutHelper = new LinearLayoutHelper();
+        linearLayoutHelper.setBgColor(0);
+        linearLayoutHelper.setItemCount(1);
+        linearLayoutHelper.setAspectRatio(10);
+        linearLayoutHelper.setMargin(20, 20, 20, 20);
+        linearLayoutHelper.setPadding(20, 20, 20, 20);
+        zhuanTiAdapter = new ZhuanTiAdapter(linearLayoutHelper, getActivity());
+
+    }
+
+    private void initHotGoodsLis(HomeBean homeBean) {
+        LinearLayoutHelper linearLayoutHelper = new LinearLayoutHelper();
+        linearLayoutHelper.setBgColor(0);
+        linearLayoutHelper.setItemCount(3);
+        linearLayoutHelper.setAspectRatio(3);
+        linearLayoutHelper.setMargin(20, 20, 20, 20);
+        linearLayoutHelper.setPadding(20, 20, 20, 20);
+        hotGoodsLisAdapter = new HotGoodsLisAdapter(linearLayoutHelper, homeBean, getActivity());
+    }
+
+    private void iniTuiJian() {
+        LinearLayoutHelper linearLayoutHelper = new LinearLayoutHelper();
+        linearLayoutHelper.setBgColor(0);
+        linearLayoutHelper.setItemCount(1);
+        linearLayoutHelper.setAspectRatio(10);
+        linearLayoutHelper.setMargin(20, 20, 20, 20);
+        linearLayoutHelper.setPadding(20, 20, 20, 20);
+
+        tuiJIanAdapter = new TuiJIanAdapter(linearLayoutHelper, getActivity());
     }
 
     private void iniShouFa() {
