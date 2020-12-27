@@ -10,8 +10,6 @@ import com.example.imitation.model.HomeModelImpl;
 public class HomePresenterImpl extends BasePresenter<IConstants.IView, IConstants.IModel> implements IConstants.IPresenter {
 
 
-
-
     @Override
     protected IConstants.IModel setImode() {
         return new HomeModelImpl();
@@ -22,7 +20,10 @@ public class HomePresenterImpl extends BasePresenter<IConstants.IView, IConstant
         imode.getData(URLConstant.BASEURL, new INetCollBack<HomeBean>() {
             @Override
             public void onSuccess(HomeBean homeBean) {
-                iview.OnSuccess(homeBean);
+                if (iview != null) {
+                    iview.OnSuccess(homeBean);
+                }
+
             }
 
             @Override
